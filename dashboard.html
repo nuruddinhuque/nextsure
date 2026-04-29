@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NextSure Dashboard</title>
+  <link rel="icon" href="/images/nextsurelogo.png" />
+  <link rel="stylesheet" href="/css/nextsure-saas.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="ns-body">
+  <div class="ns-app">
+    <aside class="sidebar">
+      <div class="side-brand">
+        <img src="/images/nextsurelogo.png" alt="NextSure" />
+        <div><b>NextSure</b><small>Role Dashboard</small></div>
+      </div>
+
+      <div class="profile-mini">
+        <b id="uName">Loading...</b>
+        <small id="uRole"></small>
+        <small id="uEmail"></small>
+      </div>
+
+      <button class="nav-btn active" data-sec="overview"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
+      <button class="nav-btn" data-sec="orders"><i class="fa-solid fa-list-check"></i> Orders</button>
+      <button class="nav-btn main-only" data-sec="users"><i class="fa-solid fa-users-gear"></i> Users / Permissions</button>
+      <button class="nav-btn" data-sec="profile"><i class="fa-solid fa-user"></i> Profile</button>
+      <button class="nav-btn" data-sec="notifications"><i class="fa-solid fa-bell"></i> Notifications</button>
+      <button class="nav-btn" data-sec="settings"><i class="fa-solid fa-gear"></i> Settings</button>
+      <button class="nav-btn danger" onclick="logout()"><i class="fa-solid fa-power-off"></i> Logout</button>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h1 id="pageTitle">Dashboard</h1>
+          <p>Live role-based order management.</p>
+        </div>
+        <div class="top-actions">
+          <a href="/form.html" class="outline"><i class="fa-solid fa-plus"></i> New Order</a>
+          <button id="refreshBtn" class="outline"><i class="fa-solid fa-rotate"></i> Refresh</button>
+        </div>
+      </header>
+
+      <section id="overview" class="section active">
+        <div class="stats-grid">
+          <div class="stat-card"><span>Total Orders</span><b id="statOrders">0</b></div>
+          <div class="stat-card"><span>Pending</span><b id="statPending">0</b></div>
+          <div class="stat-card"><span>Processed</span><b id="statDone">0</b></div>
+          <div class="stat-card"><span>Total Price</span><b id="statTotal">৳0</b></div>
+        </div>
+      </section>
+
+      <section id="orders" class="section">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h2>Orders</h2>
+              <small>Search, edit, process, upload PDF and export.</small>
+            </div>
+            <div class="actions-row">
+              <input id="orderSearch" type="search" placeholder="Search Order ID / Name / Mobile" />
+              <a class="outline main-only" href="/api/export/orders.csv" target="_blank">Download CSV</a>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr id="ordersHead"></tr>
+              </thead>
+              <tbody id="ordersBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="users" class="section main-only">
+        <div class="grid-2">
+          <div class="card">
+            <h2>Create Branch Admin</h2>
+            <form id="branchForm" class="form-grid">
+              <input name="companyName" placeholder="Company / Branch Name" required />
+              <input name="name" placeholder="Admin Name" required />
+              <input name="phone" placeholder="Phone" required />
+              <input name="email" type="email" placeholder="Email" required />
+              <input name="address" placeholder="Address" required />
+              <input name="password" placeholder="Password" value="branch123" required />
+              <button class="primary" type="submit">Create Branch Admin</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h2>Users / Permissions</h2>
+            <div id="usersList" class="user-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="profile" class="section">
+        <div class="card narrow">
+          <h2>Profile</h2>
+          <form id="profileForm" class="form-grid">
+            <input name="name" placeholder="Name" />
+            <input name="phone" placeholder="Phone" />
+            <input name="email" type="email" placeholder="Email" />
+            <textarea name="address" rows="3" placeholder="Address"></textarea>
+            <button class="primary" type="submit">Save Profile</button>
+          </form>
+        </div>
+      </section>
+
+      <section id="notifications" class="section">
+        <div class="card narrow">
+          <h2>Notifications</h2>
+          <div id="notesList" class="notes"></div>
+        </div>
+      </section>
+
+      <section id="settings" class="section">
+        <div class="card narrow">
+          <h2>Settings</h2>
+          <div class="settings-list">
+            <label><input type="checkbox" data-setting="emailNotifications" /> Email Notifications</label>
+            <label><input type="checkbox" data-setting="smsAlerts" /> SMS Alerts</label>
+            <label><input type="checkbox" data-setting="pushNotifications" /> Push Notifications</label>
+            <label><input type="checkbox" data-setting="agentRegistrations" /> Agent Registrations</label>
+            <label><input type="checkbox" data-setting="twoFactor" /> Two-Factor Authentication</label>
+            <label><input type="checkbox" data-setting="loginAlerts" /> Login Alerts</label>
+            <label><input type="checkbox" data-setting="darkMode" /> Dark Mode</label>
+            <label><input type="checkbox" data-setting="compactTables" /> Compact Tables</label>
+            <label><input type="checkbox" data-setting="animations" /> UI Animations</label>
+          </div>
+          <div class="actions-row mt">
+            <button id="saveSettings" class="primary">Save Settings</button>
+            <button id="backupBtn" class="outline">Create Backup</button>
+            <button id="clearTestBtn" class="outline danger-text">Clear Test Data</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="orderModal">
+    <form method="dialog" class="modal-card" id="editOrderForm">
+      <div class="card-head">
+        <div>
+          <h2 id="modalTitle">Edit Order</h2>
+          <small id="modalSub"></small>
+        </div>
+        <button type="button" class="icon-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="editFields" class="form-grid modal-grid"></div>
+      <div class="actions-row mt">
+        <button class="primary" type="submit">Save</button>
+        <button type="button" class="outline" id="pdfBtn">Download PDF</button>
+        <button type="button" class="outline" onclick="closeModal()">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/js/nextsure-dashboard.js"></script>
+</body>
+</html>

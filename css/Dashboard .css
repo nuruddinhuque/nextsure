@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+body{font-family:'Inter',sans-serif;background:#ffffff;margin:0;}
+.container{max-width:1300px;margin:20px auto;background:#fff;border-radius:12px;box-shadow:0 5px 20px rgba(0,0,0,0.1);padding:20px;}
+h1{margin:0;font-size:22px;}
+button{padding:6px 12px;border:none;border-radius:6px;cursor:pointer;}
+.btn-primary{background:#0ea5ff;color:#fff;}
+.btn-danger{background:#ef4444;color:#fff;}
+.btn-secondary{background:#555;color:#fff;}
+.btn-outline{background:transparent;border:1px solid #ccc;}
+input,select{padding:6px;border:1px solid #ccc;border-radius:6px;width:100%;}
+table{width:100%;border-collapse:collapse;margin-top:15px;font-size:13px;}
+th,td{border:1px solid #ddd;padding:8px;text-align:left;}
+th{background:#0ea5ff;color:#fff;white-space:nowrap;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
+.login-box{max-width:400px;margin:100px auto;background:#fff;padding:25px;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,0.1);}
+.hidden{display:none;}
+#search{margin-left:10px;padding:6px 10px;width:200px;}
+#dateFrom,#dateTo{width:140px;}
+.money-cell{white-space:nowrap;color:#007bff;font-weight:600;}
+.details-card{max-width:800px;margin:20px auto;background:#fff;border-radius:10px;padding:20px;box-shadow:0 5px 20px rgba(0,0,0,0.1);}
+.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;}
+.details-grid div{padding:8px 0;border-bottom:1px solid #eee;}
+.details-label{font-weight:600;color:#555;}
+.save-btn{margin-top:20px;padding:10px 20px;font-weight:600;}

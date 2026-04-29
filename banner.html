@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" type="image/x-icon" href="/images/nextsurelogo.png">
+
+  <title>Professional Hero Slider</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: #000;
+      color: #fff;
+      min-height: 700px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slider {
+      width: 100%;
+      height: 700px;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 1.2s ease-in-out, visibility 1.2s ease-in-out;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      z-index: 2;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(50%) contrast(1.1);
+      transition: transform 8s ease-out;
+    }
+
+    .slide.active img {
+      transform: scale(1.05);
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(28, 28, 39, 0.65) 0%, rgba(16, 185, 129, 0.35) 100%);
+      z-index: 1;
+    }
+
+    .slide-content {
+      position: absolute;
+      top: 50%;
+      left: 8%;
+      transform: translateY(-50%);
+      color: #fff;
+      max-width: 700px;
+      z-index: 3;
+      opacity: 0;
+    }
+
+    .slide.active .slide-content {
+      animation: slideInFade 1s ease forwards 0.3s;
+    }
+
+    .slide-content h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.2rem;
+      font-weight: 800;
+      line-height: 1.1;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .slide-content p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      opacity: 0.95;
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .slide-content a {
+      display: inline-block;
+      background: #10b981;
+      color: #fff;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-content a::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .slide-content a:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .slide-content a:hover {
+      background: #059669;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+    }
+
+    @keyframes slideInFade {
+      0% {
+        opacity: 0;
+        transform: translateX(-60px) translateY(-50%);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0) translateY(-50%);
+      }
+    }
+
+    /* Navigation Buttons */
+    .slider-controls {
+      position: absolute;
+      width: 100%;
+      bottom: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      z-index: 10;
+    }
+
+    .nav-btn {
+      background: rgba(16, 185, 129, 0.7);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      font-size: 1.5rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-btn:hover {
+      background: #10b981;
+      border-color: #fff;
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.5);
+    }
+
+    .nav-btn:active {
+      transform: scale(0.95);
+    }
+
+    .dots {
+      display: flex;
+      gap: 12px;
+      padding: 10px 20px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .dot:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: scale(1.2);
+    }
+
+    .dot.active {
+      background: #10b981;
+      transform: scale(1.3);
+      border-color: #fff;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: #10b981;
+      width: 0;
+      z-index: 11;
+      transition: width 0.1s linear;
+    }
+
+    /* Pause indicator */
+    .pause-indicator {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      z-index: 11;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .pause-indicator.show {
+      opacity: 1;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 500px;
+      }
+
+      .slider {
+        height: 500px;
+      }
+
+      .slide-content {
+        left: 5%;
+        right: 5%;
+        max-width: 90%;
+      }
+
+      .slide-content h1 {
+        font-size: 2rem;
+      }
+
+      .slide-content p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .slide-content a {
+        padding: 0.8rem 2rem;
+        font-size: 0.9rem;
+      }
+
+      .nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+
+      .slider-controls {
+        bottom: 20px;
+        gap: 15px;
+      }
+
+      .dots {
+        padding: 8px 15px;
+        gap: 8px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .slide-content h1 {
+        font-size: 1.5rem;
+      }
+
+      .slide-content p {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" id="home">
+    <div class="slider" id="heroSlider"></div>
+    <div class="slider-controls">
+      <button id="prevSlide" class="nav-btn prev" aria-label="Previous slide">❮</button>
+      <div class="dots" id="dots"></div>
+      <button id="nextSlide" class="nav-btn next" aria-label="Next slide">❯</button>
+    </div>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="pause-indicator" id="pauseIndicator">⏸ Paused</div>
+  </section>
+
+  <script>
+    class HeroSlider {
+      constructor() {
+        this.slides = [
+          {
+            src: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200',
+            alt: 'Travel Insurance',
+            title: 'Travel with Confidence',
+            text: 'Explore the world safely with our comprehensive travel insurance.',
+            btn: 'Learn More',
+            link: '#products'
+          },
+          {
+            src: 'https://images.unsplash.com/photo-1525133969542-4e20e62d0c8f?w=1200',
+            alt: 'Fire Insurance',
+            title: 'Fire Protection Plans',
+            text: 'Protect your home and business from unexpected fire damage.',
+            btn: 'View Details',
+            link: '#products'
+          },
+          {
+            src: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200',
+            alt: 'Car Insurance',
+            title: 'Drive Without Worries',
+            text: 'Enjoy every ride with full car insurance coverage.',
+            btn: 'Get a Quote',
+            link: '#quote'
+          },
+          {
+            src: 'https://images.unsplash.com/photo-1541600383005-565c949cf777?w=1200',
+            alt: 'Marine Insurance',
+            title: 'Marine Cargo Protection',
+            text: 'Ensure your cargo and vessel are always secure.',
+            btn: 'Discover More',
+            link: '#products'
+          }
+        ];
+
+        this.slider = document.getElementById('heroSlider');
+        this.dotsContainer = document.getElementById('dots');
+        this.nextBtn = document.getElementById('nextSlide');
+        this.prevBtn = document.getElementById('prevSlide');
+        this.progressBar = document.getElementById('progressBar');
+        this.pauseIndicator = document.getElementById('pauseIndicator');
+        
+        this.currentIndex = 0;
+        this.autoPlayInterval = null;
+        this.progressInterval = null;
+        this.autoPlayDelay = 5000; // 5 seconds per slide
+        this.isPaused = false;
+        this.progressWidth = 0;
+        
+        this.init();
+      }
+
+      init() {
+        this.createSlides();
+        this.createDots();
+        this.showSlide(0);
+        this.startAutoPlay();
+        this.attachEventListeners();
+      }
+
+      createSlides() {
+        this.slides.forEach((slide, index) => {
+          const div = document.createElement('div');
+          div.classList.add('slide');
+          if (index === 0) div.classList.add('active');
+          div.innerHTML = `
+            <img src="${slide.src}" alt="${slide.alt}" loading="${index === 0 ? 'eager' : 'lazy'}">
+            <div class="slide-content">
+              <h1>${slide.title}</h1>
+              <p>${slide.text}</p>
+              <a href="${slide.link}">${slide.btn}</a>
+            </div>
+          `;
+          this.slider.appendChild(div);
+        });
+        this.slideElements = this.slider.querySelectorAll('.slide');
+      }
+
+      createDots() {
+        this.slides.forEach((_, i) => {
+          const dot = document.createElement('span');
+          dot.classList.add('dot');
+          dot.setAttribute('role', 'button');
+          dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+          if (i === 0) dot.classList.add('active');
+          dot.addEventListener('click', () => {
+            this.showSlide(i);
+            this.resetAutoPlay();
+          });
+          this.dotsContainer.appendChild(dot);
+        });
+        this.dotElements = this.dotsContainer.querySelectorAll('.dot');
+      }
+
+      showSlide(index) {
+        this.slideElements.forEach(slide => slide.classList.remove('active'));
+        this.dotElements.forEach(dot => dot.classList.remove('active'));
+        this.slideElements[index].classList.add('active');
+        this.dotElements[index].classList.add('active');
+        this.currentIndex = index;
+        this.resetProgress();
+      }
+
+      nextSlide() {
+        const next = (this.currentIndex + 1) % this.slides.length;
+        this.showSlide(next);
+      }
+
+      prevSlide() {
+        const prev = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+        this.showSlide(prev);
+      }
+
+      startAutoPlay() {
+        if (this.autoPlayInterval) return;
+        
+        this.autoPlayInterval = setInterval(() => {
+          if (!this.isPaused) {
+            this.nextSlide();
+          }
+        }, this.autoPlayDelay);
+
+        this.startProgress();
+      }
+
+      stopAutoPlay() {
+        if (this.autoPlayInterval) {
+          clearInterval(this.autoPlayInterval);
+          this.autoPlayInterval = null;
+        }
+        this.stopProgress();
+      }
+
+      resetAutoPlay() {
+        this.stopAutoPlay();
+        this.startAutoPlay();
+      }
+
+      startProgress() {
+        this.progressWidth = 0;
+        this.progressBar.style.width = '0%';
+        
+        this.progressInterval = setInterval(() => {
+          if (!this.isPaused) {
+            this.progressWidth += (100 / (this.autoPlayDelay / 50));
+            this.progressBar.style.width = Math.min(this.progressWidth, 100) + '%';
+            
+            if (this.progressWidth >= 100) {
+              this.progressWidth = 0;
+            }
+          }
+        }, 50);
+      }
+
+      stopProgress() {
+        if (this.progressInterval) {
+          clearInterval(this.progressInterval);
+          this.progressInterval = null;
+        }
+      }
+
+      resetProgress() {
+        this.progressWidth = 0;
+        this.progressBar.style.width = '0%';
+      }
+
+      pauseSlider() {
+        this.isPaused = true;
+        this.pauseIndicator.classList.add('show');
+      }
+
+      resumeSlider() {
+        this.isPaused = false;
+        this.pauseIndicator.classList.remove('show');
+      }
+
+      attachEventListeners() {
+        // Next/Previous buttons
+        this.nextBtn.addEventListener('click', () => {
+          this.nextSlide();
+          this.resetAutoPlay();
+        });
+
+        this.prevBtn.addEventListener('click', () => {
+          this.prevSlide();
+          this.resetAutoPlay();
+        });
+
+        // Pause on hover
+        this.slider.addEventListener('mouseenter', () => this.pauseSlider());
+        this.slider.addEventListener('mouseleave', () => this.resumeSlider());
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') {
+            this.prevSlide();
+            this.resetAutoPlay();
+          } else if (e.key === 'ArrowRight') {
+            this.nextSlide();
+            this.resetAutoPlay();
+          }
+        });
+
+        // Touch/Swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        this.slider.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+          this.pauseSlider();
+        });
+
+        this.slider.addEventListener('touchend', (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          this.handleSwipe();
+          this.resumeSlider();
+        });
+
+        const handleSwipe = () => {
+          if (touchEndX < touchStartX - 50) {
+            this.nextSlide();
+            this.resetAutoPlay();
+          }
+          if (touchEndX > touchStartX + 50) {
+            this.prevSlide();
+            this.resetAutoPlay();
+          }
+        };
+
+        this.handleSwipe = handleSwipe;
+      }
+    }
+
+    // Initialize slider when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => new HeroSlider());
+  </script>
+</body>
+</html>

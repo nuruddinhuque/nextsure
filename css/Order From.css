@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body{
+  font-family:'Inter', sans-serif;
+  background-color: hwb(0 100% 0%);
+
+}
+
+/* card shadow */
+.card-shadow { box-shadow: 0 8px 40px #0000007c; }
+
+/* steps */
+.step { transition: background-color 0.3s, color 0.3s; }
+.step.active { background-color: #00cb00; color: #ffffff; }
+
+/* notification */
+.notif{
+  position:fixed;
+  right:20px;
+  top:20px;
+  padding:12px 16px;
+  border-radius:8px;
+  background:#111;
+  color:#fff;
+  z-index:99;
+  transition: opacity 0.5s;
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.notif.show { opacity: 1; transform: translateY(0); }
+
+/* header login button */
+.login1{
+  max-width:100%;
+  right: 0%;
+  background:#00cb00;
+  padding:1px;
+  position: absolute;
+  border-radius:12px;
+  box-shadow: 0 3px 10px #00cb00;
+}
+.logo{
+  margin: 0px;;
+  max-width: 100%; 
+  text-align: right;
+  top: 0px;
+  background:color #00cb00;
+  padding:20px;
+  border-radius:12px;
+}
+
+/* layout adjustments from original */
+.card1{
+  width: 200%;
+  position: absolute;
+text-align: left;
+
+  font-size: 18px;
+  font-weight: 500;
+  color: #000000;
+  
+  
+  }

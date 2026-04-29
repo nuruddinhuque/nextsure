@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/x-icon" href="/images/nextsurelogo.png">
+<title>NextSure — Travel Insurance Order</title>
+<script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="css/style.css">
+<style>
+  body{background:#f8fafc;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+  .cardorder{background:linear-gradient(180deg,#ffffff,#f8fafc);min-height:100vh;padding:36px 16px;}
+  .card-inner{max-width:920px;margin:0 auto;background:#fff;border-radius:12px;padding:28px;box-shadow:0 10px 30px rgba(2,6,23,0.06);}
+  .step.active{box-shadow:0 4px 10px rgba(46, 96, 177, 0.12);}
+  .error{color:#b91c1c;font-size:0.875rem;margin-top:6px;}
+  #result{transition:all .2s ease;}
+  .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#eef2ff;color:#1e40af;font-weight:600;font-size:13px;}
+  .muted{color:#000000;font-size:0.95rem;}
+</style>
+</head> 
+ <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand_logo">
+        <a href="index.html" class="brand"> <img src="./images/nextsurelogo.png" alt="logo">
+        </a>
+      </div>
+        <nav class="nav" id="mainNav">
+        <ul class="nav-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#home">About</a></li>
+          <li class="has-submenu">
+            <a href="product.html">Products</a>
+            <ul class="submenu">
+              <li><a href="travel.html">Travel Insurance</a></li>
+              <li><a href="fire.html">Fire Insurance</a></li>
+              <li><a href="motor.html">Motor Insurance</a></li>
+              <li><a href="marine.html">Marine Insurance</a></li>
+            </ul>
+          </li>
+          <li><a href="#partners">Partners</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#" id="addEventListener" class="cta">Login Access</a></li>
+
+        </ul>
+      </nav>
+        <button class="nav-toggle" id="navToggle">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+          <!-- 1. Add popup container (hidden by default) -->
+          <div id="loginPopup" class="login-popup hidden">
+          <div class="login-box">
+          <h2>Select Login Type</h2><br>
+          <button class="login-btn" id="agentLoginBtn">Agent Login</button> 
+          <button class="login-btn" id="adminLoginBtn">Admin Login</button>
+          <button class="close-btn" id="closeLoginPopup">✖</button>
+          </div>
+          </div>
+
+
+          <!-- 2. Add actual login form popup -->
+          <div id="loginForm" class="login-form hidden">
+          <div class="login-card">
+          <h2 id="loginTitle">Login</h2><br>
+          User ID: <input type="text" id="loginUser" placeholder="User ID" required><br>
+          password: <input type="password" id="loginPass" placeholder="Password" required>
+          <button id="loginSubmit">Login</button>
+          <button class="close-btn" id="closeLoginForm">✖</button>
+          </div>
+          </div>
+
+  </header>
+
+
+<body class="cardorder">
+
+
+  
+  <div class="card-inner">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h1 class="text-2xl font-semibold text-slate-800">NextSure — Travel Insurance</h1>
+        <div class="muted mt-1">Fill the three steps to create and confirm order</div>
+      </div>
+    </div>
+
+    <div class="grid gap-6">
+      <!-- Steps -->
+      <div class="flex gap-3 mb-2">
+        <div id="s1" class="step active badge">Step 1 — Price</div>
+        <div id="s2" class="step badge" style="background:#f3f4f6;color:#374151;">Step 2 — Traveler</div>
+        <div id="s3" class="step badge" style="background:#f3f4f6;color:#374151;">Step 3 — Order</div>
+      </div>
+
+      <!-- STEP 1 -->
+      <section id="step1">
+        <label class="block font-medium">1. Plan</label>
+        <select id="plan" class="w-full mt-2 p-3 border rounded-md bg-gray-50">
+          <option value="">Select Plan</option>
+          <option>Plan A — Schengen (Worldwide Excl. USA & Canada)</option>
+          <option>Plan B — Schengen (Worldwide Incl. USA & Canada)</option>
+          <option>Plan A — Non—Schengen (Worldwide Excl. USA & Canada)</option>
+          <option>Plan B — Non—Schengen (Worldwide Incl. USA & Canada)</option>
+          <option>Plan C — Study (Excl. USA & Canada) Schengen</option>
+          <option>Plan D — Study (Incl. USA & Canada) Schengen</option>
+          <option>Plan C — Study (Excl. USA & Canada) Non—Schengen</option>
+          <option>Plan D — Study (Incl. USA & Canada) Non—Schengen</option>
+        </select>
+        <div id="planError" class="error hidden">অনুগ্রহ করে প্ল্যান সিলেক্ট করুন</div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div>
+            <label class="block font-medium">2. Date of Birth</label>
+            <input type="date" id="dob" onchange="autoAgeBand()" class="w-full mt-2 p-3 border rounded-md bg-gray-50"/>
+            <div id="dobError" class="error hidden">অবৈধ জন্মতারিখ</div>
+          </div>
+
+          <div>
+            <label class="block font-medium">3. Age Band (Auto)</label>
+            <select id="age" class="w-full mt-2 p-3 border rounded-md bg-gray-50">
+              <option value="0.5-40">0.5-40</option>
+              <option value="41-50">41-50</option>
+              <option value="51-65">51-65</option>
+              <option value="66-70">66-70</option>
+              <option value="71-75">71-75</option>
+              <option value="76-79">76-79</option>
+              <option value="80-85">80-85</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="block font-medium mt-4">4. Travel Duration</label>
+        <select id="days" class="w-full mt-2 p-3 border rounded-md bg-gray-50">
+          <option value="">Select Duration</option>
+          <option>1-14</option><option>15-21</option><option>22-28</option><option>29-35</option>
+          <option>36-47</option><option>48-60</option><option>61-75</option><option>76-90</option>
+          <option>91-120</option><option>121-147</option><option>148-180</option><option>6month</option><option>12month</option>
+        </select>
+        <div id="daysError" class="error hidden">অনুগ্রহ করে ট্রাভেল ডিউরেশন সিলেক্ট করুন</div>
+
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <div>
+            <label class="block font-medium">5. Special Offer (%)</label>
+            <input id="adminDiscount" type="number" value="0" min="0" max="100" class="w-full mt-2 p-3 border rounded-md bg-gray-50"/>
+          </div>
+          <div>
+            <label class="block font-medium">6. Multiplier</label>
+            <input id="multiplier" type="number" value="1" min="0.01" step="0.01" class="w-full mt-2 p-3 border rounded-md bg-gray-50"/>
+            <div id="multiplierError" class="error hidden">Multiplier must be > 0</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 mt-6">
+          <button class="px-4 py-2 bg-green-600 text-white rounded-md" onclick="calculatePrice()">Calculate</button>
+          <button class="px-4 py-2 bg-gray-100 rounded-md" onclick="clearStep1()">Clear</button>
+          <div class="flex-1"></div>
+          <button id="toStep2Btn" class="px-4 py-2 bg-indigo-600 text-white rounded-md hidden" onclick="goToStep(2)">Next →</button>
+        </div>
+
+        <div id="result" class="mt-4 p-4 hidden rounded-md bg-indigo-50 border border-indigo-100"></div>
+      </section>
+
+      <!-- STEP 2 -->
+<section id="step2" class="hidden">
+
+  <label class="block font-medium">7. Full Name</label>
+  <input id="fullName" type="text" class="w-full mt-2 p-3 border rounded-md bg-gray-50"/>
+  <div id="nameError" class="error hidden">পূর্ণ নাম লিখুন</div>
+
+  <label class="block font-medium mt-4">8. Mobile Number (Bangladesh)</label>
+  <input id="contact" type="text" placeholder="01XXXXXXXXX" class="w-full mt-2 p-3 border rounded-md bg-gray-50"/>
+  <div id="contactError" class="error hidden">সঠিক মোবাইল নম্বর লিখুন</div>
+
+  <!-- ⭐ New Email Field -->
+  <label class="block font-medium mt-4">9. Email address</label>
+  <input id="email" type="email" placeholder="example@gmail.com" class="w-full mt-2 p-3 border rounded-md bg-gray-50"/>
+  <div id="emailError" class="error hidden">সঠিক ইমেইল লিখুন</div>
+
+  <div class="flex items-center gap-3 mt-6">
+    <button class="px-4 py-2 bg-gray-100 rounded-md" onclick="goToStep(1)">← Previous</button>
+    <div class="flex-1"></div>
+    <button class="px-4 py-2 bg-indigo-600 text-white rounded-md" onclick="goToStep(3)">Next →</button>
+  </div>
+
+</section>
+
+
+      <!-- STEP 3 -->
+      <section id="step3" class="hidden">
+        <label class="block font-medium">10. Insurance Company</label>
+        <select id="Company" class="w-full mt-2 p-3 border rounded-md bg-gray-50">
+          <option value="">Select Company</option>
+          <option>Bangladesh National Insurance co. ltd</option>
+          <option>Prime Insurance co. ltd</option>
+          <option>Mercantile Islami Insurance co. ltd</option>
+          <option>Sena Insurance co. ltd</option>
+        </select>
+        <div id="companyError" class="error hidden">কোম্পানি সিলেক্ট করুন</div>
+
+        <label class="block font-medium mt-4">11. Destination Country</label>
+        <input id="countrySearch" list="countries" placeholder="Country name..." class="w-full mt-2 p-3 border rounded-md bg-gray-50"/>
+        <datalist id="countries">
+<option value="Afghanistan">Afghanistan</option>
+            <option value="Albania">Albania</option>
+            <option value="Algeria">Algeria</option>
+            <option value="Andorra">Andorra</option>
+            <option value="Angola">Angola</option>
+            <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Armenia">Armenia</option>
+            <option value="Australia">Australia</option>
+            <option value="Austria">Austria</option>
+            <option value="Azerbaijan">Azerbaijan</option>
+            <option value="Bahamas">Bahamas</option>
+            <option value="Bahrain">Bahrain</option>
+            <option value="Bangladesh">Bangladesh</option>
+            <option value="Barbados">Barbados</option>
+            <option value="Belarus">Belarus</option>
+            <option value="Belgium">Belgium</option>
+            <option value="Belize">Belize</option>
+            <option value="Benin">Benin</option>
+            <option value="Bhutan">Bhutan</option>
+            <option value="Bolivia">Bolivia</option>
+            <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+            <option value="Botswana">Botswana</option>
+            <option value="Brazil">Brazil</option>
+            <option value="Brunei">Brunei</option>
+            <option value="Bulgaria">Bulgaria</option>
+            <option value="Burkina Faso">Burkina Faso</option>
+            <option value="Burundi">Burundi</option>
+            <option value="Cambodia">Cambodia</option>
+            <option value="Cameroon">Cameroon</option>
+            <option value="Canada">Canada</option>
+            <option value="Chile">Chile</option>
+            <option value="China">China</option>
+            <option value="Colombia">Colombia</option>
+            <option value="Congo">Congo</option>
+            <option value="Costa Rica">Costa Rica</option>
+            <option value="Croatia">Croatia</option>
+            <option value="Cuba">Cuba</option>
+            <option value="Cyprus">Cyprus</option>
+            <option value="Czech Republic">Czech Republic</option>
+            <option value="Denmark">Denmark</option>
+            <option value="Dominican Republic">Dominican Republic</option>
+            <option value="Ecuador">Ecuador</option>
+            <option value="Egypt">Egypt</option>
+            <option value="El Salvador">El Salvador</option>
+            <option value="Estonia">Estonia</option>
+            <option value="Ethiopia">Ethiopia</option>
+            <option value="Fiji">Fiji</option>
+            <option value="Finland">Finland</option>
+            <option value="France">France</option>
+            <option value="Gabon">Gabon</option>
+            <option value="Gambia">Gambia</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Germany">Germany</option>
+            <option value="Ghana">Ghana</option>
+            <option value="Greece">Greece</option>
+            <option value="Greenland">Greenland</option>
+            <option value="Grenada">Grenada</option>
+            <option value="Guatemala">Guatemala</option>
+            <option value="Guinea">Guinea</option>
+            <option value="Guyana">Guyana</option>
+            <option value="Haiti">Haiti</option>
+            <option value="Honduras">Honduras</option>
+            <option value="Hong Kong">Hong Kong</option>
+            <option value="Hungary">Hungary</option>
+            <option value="Iceland">Iceland</option>
+            <option value="India">India</option>
+            <option value="Indonesia">Indonesia</option>
+            <option value="Iran">Iran</option>
+            <option value="Iraq">Iraq</option>
+            <option value="Ireland">Ireland</option>
+            <option value="Israel">Israel</option>
+            <option value="Italy">Italy</option>
+            <option value="Jamaica">Jamaica</option>
+            <option value="Japan">Japan</option>
+            <option value="Jordan">Jordan</option>
+            <option value="Kazakhstan">Kazakhstan</option>
+            <option value="Kenya">Kenya</option>
+            <option value="Kuwait">Kuwait</option>
+            <option value="Kyrgyzstan">Kyrgyzstan</option>
+            <option value="Laos">Laos</option>
+            <option value="Latvia">Latvia</option>
+            <option value="Lebanon">Lebanon</option>
+            <option value="Lesotho">Lesotho</option>
+            <option value="Liberia">Liberia</option>
+            <option value="Libya">Libya</option>
+            <option value="Lithuania">Lithuania</option>
+            <option value="Luxembourg">Luxembourg</option>
+            <option value="Macau">Macau</option>
+            <option value="Madagascar">Madagascar</option>
+            <option value="Malawi">Malawi</option>
+            <option value="Malaysia">Malaysia</option>
+            <option value="Maldives">Maldives</option>
+            <option value="Mali">Mali</option>
+            <option value="Malta">Malta</option>
+            <option value="Mauritius">Mauritius</option>
+            <option value="Mexico">Mexico</option>
+            <option value="Moldova">Moldova</option>
+            <option value="Monaco">Monaco</option>
+            <option value="Mongolia">Mongolia</option>
+            <option value="Montenegro">Montenegro</option>
+            <option value="Morocco">Morocco</option>
+            <option value="Mozambique">Mozambique</option>
+            <option value="Myanmar">Myanmar</option>
+            <option value="Namibia">Namibia</option>
+            <option value="Nepal">Nepal</option>
+            <option value="Netherlands">Netherlands</option>
+            <option value="New Zealand">New Zealand</option>
+            <option value="Nicaragua">Nicaragua</option>
+            <option value="Niger">Niger</option>
+            <option value="Nigeria">Nigeria</option>
+            <option value="North Korea">North Korea</option>
+            <option value="Norway">Norway</option>
+            <option value="Oman">Oman</option>
+            <option value="Pakistan">Pakistan</option>
+            <option value="Palestine">Palestine</option>
+            <option value="Panama">Panama</option>
+            <option value="Papua New Guinea">Papua New Guinea</option>
+            <option value="Paraguay">Paraguay</option>
+            <option value="Peru">Peru</option>
+            <option value="Philippines">Philippines</option>
+            <option value="Poland">Poland</option>
+            <option value="Portugal">Portugal</option>
+            <option value="Qatar">Qatar</option>
+            <option value="Romania">Romania</option>
+            <option value="Russia">Russia</option>
+            <option value="Rwanda">Rwanda</option>
+            <option value="Saudi Arabia">Saudi Arabia</option>
+            <option value="Senegal">Senegal</option>
+            <option value="Serbia">Serbia</option>
+            <option value="Seychelles">Seychelles</option>
+            <option value="Sierra Leone">Sierra Leone</option>
+            <option value="Singapore">Singapore</option>
+            <option value="Slovakia">Slovakia</option>
+            <option value="Slovenia">Slovenia</option>
+            <option value="Somalia">Somalia</option>
+            <option value="South Africa">South Africa</option>
+            <option value="South Korea">South Korea</option>
+            <option value="Spain">Spain</option>
+            <option value="Sri Lanka">Sri Lanka</option>
+            <option value="Sudan">Sudan</option>
+            <option value="Suriname">Suriname</option>
+            <option value="Sweden">Sweden</option>
+            <option value="Switzerland">Switzerland</option>
+            <option value="Syria">Syria</option>
+            <option value="Taiwan">Taiwan</option>
+            <option value="Tajikistan">Tajikistan</option>
+            <option value="Tanzania">Tanzania</option>
+            <option value="Thailand">Thailand</option>
+            <option value="Togo">Togo</option>
+            <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+            <option value="Tunisia">Tunisia</option>
+            <option value="Turkey">Turkey</option>
+            <option value="Turkmenistan">Turkmenistan</option>
+            <option value="Uganda">Uganda</option>
+            <option value="Ukraine">Ukraine</option>
+            <option value="United Arab Emirates">United Arab Emirates</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="United States">United States</option>
+            <option value="Uruguay">Uruguay</option>
+            <option value="Uzbekistan">Uzbekistan</option>
+            <option value="Venezuela">Venezuela</option>
+            <option value="Vietnam">Vietnam</option>
+            <option value="Yemen">Yemen</option>
+            <option value="Zambia">Zambia</option>
+            <option value="Zimbabwe">Zimbabwe</option>
+            <option value="Other">Other</option></datalist>
+          </datalist>
+        <div id="countryError" class="error hidden">গন্তব্য দেশ লিখুন</div>
+
+        <label class="block font-medium mt-4">12. Occupation</label>
+        <input id="occupation" type="text" class="w-full mt-2 p-3 border rounded-md bg-gray-50"/>
+        <div id="occupationError" class="error hidden">অকুপেশন লিখুন</div>
+
+        <label class="block font-medium mt-4">13. Upload Passport Copy (jpg/png/pdf)</label>
+        <input id="passportFile" type="file" accept=".jpg,.jpeg,.png,.pdf" class="w-full mt-2 p-2 border rounded-md bg-gray-50"/>
+        <div id="fileError" class="error hidden">পাসপোর্ট ফাইল আপলোড করুন</div>
+
+        <label class="block font-medium mt-4">14. Full Address (Policy Delivery)</label>
+        <textarea id="address" rows="3" class="w-full mt-2 p-3 border rounded-md bg-gray-50"></textarea>
+        <div id="addressError" class="error hidden">ঠিকানা লিখুন</div>
+
+        <label class="block font-medium mt-4">15. Travel Start Date</label>
+        <input id="travelDate" type="date" class="w-full mt-2 p-3 border rounded-md bg-gray-50"/>
+        <div id="travelDateError" class="error hidden">ট্রাভেল ডেট সিলেক্ট করুন</div>
+
+        <div class="flex items-center gap-3 mt-6">
+          <button class="px-4 py-2 bg-gray-100 rounded-md" onclick="goToStep(2)">← Previous</button>
+          <div class="flex-1"></div>
+          <button class="px-4 py-2 bg-green-600 text-white rounded-md" onclick="confirmOrder()">Confirm Order</button>
+        </div>
+      </section>
+
+      <div id="confirmation" class="mt-6 p-4 bg-green-50 hidden rounded-md font-semibold text-green-700"></div>
+    </div>
+  </div>
+
+<!-- Contact Section -->
+  <section class="contact-section" id="contact">
+   <div class="container">
+       <div class="contact_main">
+        <div class="contact_item">
+          <div class="contact_information">
+            <h2>NextSure</h2>
+            <p>NextSure Insurance provides trusted and comprehensive protection with personalized solutions, fast support, and reliable coverage for health, travel, Motor, fire, marine, and all types of insurance, ensuring complete peace of mind.</p>
+          </div>
+          <div class="contact_social">
+            <ul class="social_item">
+              <li><a href="https://www.facebook.com/Nextsure.xyz" target="_blank"><i class="fa-brands fa-facebook"></i></a></li>
+              <li><a href="https://www.instagram.com/" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
+              <li><a href="https://www.linkedin.com/company/nextsure-xyz/" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a></li>
+              <li><a href="https://nextsure.xyz/" target="_blank"><i class="fa-solid fa-globe"></i></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="contact_item">
+          <h2>Our Product</h2>
+          <div class="contact-info">
+            <ul>
+               <li><a href="travel.html">Travel Insurance</a></li>
+              <li><a href="fire.html">Fire Insurance</a></li>
+              <li><a href="motor.html">Motor Insurance</a></li>
+              <li><a href="marine.html">Marine Insurance</a></li>
+            </ul>
+          </div>
+        </div>
+         <div class="contact_item">
+          <h2>Contact Us</h2>
+          <div class="contact-info">
+            <p><a href="tel:+880 1851-008300">Phone: +880 1851-008300</a></p>
+            <p><strong>Email:</strong> <a href="mailto:nextsure.xyz@gmail.com">nextsure.xyz@gmail.com</a></p>
+            <p><strong>Address:</strong> Gulshan-1, Dhaka-1212, Bangladesh</p>
+          </div>
+        </div>
+    </div>
+   </div>
+  </section>
+<!-- Brevo Conversations {literal} -->
+  <script>
+      (function(d, w, c) {
+          w.BrevoConversationsID = '6929c29da21c3118e1081ed6';
+          w[c] = w[c] || function() {
+              (w[c].q = w[c].q || []).push(arguments);
+          };
+          var s = d.createElement('script');
+          s.async = true;
+          s.src = 'https://conversations-widget.brevo.com/brevo-conversations.js';
+          if (d.head) d.head.appendChild(s);
+      })(document, window, 'BrevoConversations');
+  </script>
+  <!-- /Brevo Conversations {/literal} -->
+    </section>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; <span id="year"></span> <a href="index.html">NextSure</a> All rights reserved.</p>
+  </footer>
+
+  
+<script src="js/Order From script.js"> </script>
+  <script src="https://kit.fontawesome.com/YOUR_KIT_CODE.js" crossorigin="anonymous"></script>
+
+<!-- <script src="./js/form.js"> </script> -->
+<script src="css/style.css"> </script>
+<script src="js/main.js"> </script>
+
+</body>
+</html>

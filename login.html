@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NextSure Login</title>
+  <link rel="icon" href="/images/nextsurelogo.png" />
+  <link rel="stylesheet" href="/css/nextsure-saas.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body class="ns-body">
+  <main class="ns-auth">
+    <section class="auth-hero">
+      <div class="brand-row">
+        <img src="/images/nextsurelogo.png" alt="NextSure" />
+        <div>
+          <h2>NextSure</h2>
+          <span>Insurance SaaS Portal</span>
+        </div>
+      </div>
+
+      <h1>Customer, Agency, Branch Admin ও Main Admin — সব এক Login System.</h1>
+      <p>Customer auto access পাবে। Agency approval দরকার। Branch Admin/Main Admin permission অনুযায়ী dashboard দেখবে।</p>
+
+      <div class="hero-grid">
+        <div class="hero-tile"><b>Live Orders</b><span>Role-wise order visibility</span></div>
+        <div class="hero-tile"><b>Permission</b><span>Main Admin full control</span></div>
+        <div class="hero-tile"><b>PDF / CSV</b><span>Order PDF, policy PDF, Excel CSV</span></div>
+        <div class="hero-tile"><b>OTP / Google</b><span>Customer quick signup/login</span></div>
+      </div>
+    </section>
+
+    <section class="auth-card">
+      <div class="tabs">
+        <button class="tab active" data-tab="login">Login</button>
+        <button class="tab" data-tab="customer">Customer</button>
+        <button class="tab" data-tab="agency">Agency</button>
+      </div>
+
+      <div id="msg" class="msg"></div>
+
+      <form id="loginForm" class="auth-pane">
+        <h2>Login</h2>
+        <label>Email বা Phone</label>
+        <input name="email" type="text" placeholder="admin@nextsure.xyz" required />
+        <label>Password</label>
+        <input name="password" type="password" placeholder="Password" required />
+        <button class="primary" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+
+        <div class="quick-login">
+          <button type="button" id="googleBtn"><i class="fa-brands fa-google"></i> Demo Google Login</button>
+          <button type="button" id="phoneBtn"><i class="fa-solid fa-mobile-screen"></i> Demo Phone OTP</button>
+        </div>
+      </form>
+
+      <form id="customerForm" class="auth-pane hide">
+        <h2>Customer Account</h2>
+        <label>Full Name</label>
+        <input name="name" type="text" required />
+        <label>Phone Number</label>
+        <input name="phone" type="text" required />
+        <label>Email</label>
+        <input name="email" type="email" required />
+        <label>Address</label>
+        <textarea name="address" rows="3" required></textarea>
+        <label>Password</label>
+        <input name="password" type="password" required />
+        <button class="primary" type="submit">Create Customer Account</button>
+      </form>
+
+      <form id="agencyForm" class="auth-pane hide" enctype="multipart/form-data">
+        <h2>Agency Registration</h2>
+        <label>Agency Name</label>
+        <input name="agencyName" type="text" required />
+        <label>Contact Person</label>
+        <input name="name" type="text" required />
+        <label>Phone Number</label>
+        <input name="phone" type="text" required />
+        <label>Email</label>
+        <input name="email" type="email" required />
+        <label>Address</label>
+        <textarea name="address" rows="3" required></textarea>
+        <label>Visiting Card Image</label>
+        <input name="visitingCard" type="file" accept="image/*" />
+        <label>Password</label>
+        <input name="password" type="password" required />
+        <button class="primary" type="submit">Submit for Main Admin Approval</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="/js/nextsure-auth.js"></script>
+</body>
+</html>

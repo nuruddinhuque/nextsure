@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/images/nextsurelogo.png">
+  <title>Marine Insurance - NextSure</title>
+  <link rel="stylesheet" href="css/marine.css">
+  <link rel="stylesheet" href="css/product.css">
+</head>
+<body>
+
+  <!-- Preloader -->
+  <div id="preloader" class="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+       <div class="brand_logo">
+        <a href="index.html" class="brand">
+          <img src="./images/nextsurelogo.png" alt="logo">
+        </a>
+      </div>
+      <button class="nav-toggle" id="navToggle"><span class="hamburger"></span></button>
+      <nav class="nav" id="mainNav">
+        <ul class="nav-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li class="has-submenu">
+            <a href="product.html">Products</a>
+            <ul class="submenu">
+              <li><a href="travel.html">Travel Insurance</a></li>
+              <li><a href="fire.html">Fire Insurance</a></li>
+              <li><a href="motor.html">Motor Insurance</a></li>
+              <li><a href="marine.html">Marine Insurance</a></li>
+            </ul>
+          </li>
+          <li><a href="index.html#partners">Partners</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+      <img src="images/marine.webp" alt="Marine Insurance Banner" />
+      <div class="hero-text">
+        <h1>Protect Your Voyage with NextSure</h1>
+        <p>
+          From cargo to vessel — ensure every journey is safe and every shipment is secured.
+        </p>
+      </div>
+    </section>
+
+    <!-- Product Info -->
+    <section class="product-info">
+      <h2>What is Marine Insurance?</h2>
+      <p>
+        Marine Insurance provides protection for ships, cargo, and goods during transit over sea, air, or land. Whether you are an importer, exporter, or logistics company — NextSure ensures your assets stay protected from unexpected risks like accidents, theft, fire, or natural disasters.
+      </p>
+
+      <div class="benefits">
+        <div class="benefit-card">
+          <h3>🚢 Cargo Insurance</h3>
+          <p>
+            Covers loss or damage to goods during transportation by sea, air, or land.
+          </p>
+        </div>
+        <div class="benefit-card">
+          <h3>⚓ Hull Insurance</h3>
+          <p>
+            Protects ships and vessels from accidental or mechanical damage.
+          </p>
+        </div>
+        <div class="benefit-card">
+          <h3>🧭 Marine Liability</h3>
+          <p>
+            Covers third-party liabilities arising from collision, pollution, or crew injury.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose NextSure -->
+    <!-- <section class="product-info">
+      <h2>Why Choose NextSure for Marine Insurance?</h2>
+      <p>
+        ✅ Expert underwriting and claim handling <br />
+        ✅ Coverage tailored for importers, exporters, and logistics firms <br />
+        ✅ Fast digital policy and claim processing <br />
+        ✅ Nationwide support and free consultation
+      </p>
+    </section> -->
+
+    <!-- Contact CTA -->
+    <section class="contact-section">
+      <h2>Let’s Secure Your Cargo Today!</h2>
+      <p>
+        Have questions or need a custom quote? Get in touch with our insurance experts.  
+        We’ll help you find the best plan to protect your marine assets.
+      </p>
+      <div class="contact-buttons">
+        <a href="http://wa.me/8801851008300" target="_blank">💬 Chat on WhatsApp</a>
+        <a href="mailto:nextsure.xyz@gmail.com">📧 Send Email</a>
+      </div>
+    </section>
+
+<!-- Brevo Conversations {literal} -->
+  <script>
+      (function(d, w, c) {
+          w.BrevoConversationsID = '6929c29da21c3118e1081ed6';
+          w[c] = w[c] || function() {
+              (w[c].q = w[c].q || []).push(arguments);
+          };
+          var s = d.createElement('script');
+          s.async = true;
+          s.src = 'https://conversations-widget.brevo.com/brevo-conversations.js';
+          if (d.head) d.head.appendChild(s);
+      })(document, window, 'BrevoConversations');
+  </script>
+  <!-- /Brevo Conversations {/literal} -->
+    </section>
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> NextSure. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
